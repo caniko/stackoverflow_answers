@@ -143,9 +143,9 @@ for frame_idx in loop_range:
                 if loc in (2, 3):   # location_2 or 3
                     animation_data_df.loc[[data_index], :] = x, y, loc, i
                 elif loc == 4:      # Disappear
-                    animation_data_df.drop(data_index)
+                    animation_data_df.iloc[data_index] = np.nan
 
-        current_palette_size = len(np.unique(animation_data_df["location"]))
+        current_palette_size = np.sum(~np.isnan(np.unique(animation_data_df["location"])))
         fig, ax = plt.subplots(figsize=RESOLUTION)
         sns.scatterplot(
             x="x", y="y", hue="location", data=animation_data_df, ax=ax, palette=palette[:current_palette_size]
